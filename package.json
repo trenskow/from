@@ -1,0 +1,23 @@
+{
+  "name": "@trenskow/from",
+  "version": "1.0.0",
+  "description": "A small library for selecting keys from an object.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/trenskow/from.git"
+  },
+  "author": "Kristian Trenskow <trenskow@me.com>",
+  "license": "BSD-3-Clause",
+  "bugs": {
+    "url": "https://github.com/trenskow/from/issues"
+  },
+  "homepage": "https://github.com/trenskow/from#readme",
+  "dependencies": {
+    "keyd": "^1.1.1",
+    "merge": "^1.2.1"
+  }
+}
