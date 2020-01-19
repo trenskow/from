@@ -20,7 +20,7 @@ module.exports = exports = function from(obj) {
 	};
 
 	this.select = (keys = []) => {
-		if (!Array.isArray) keys = keys.split(/, ?/);
+		if (!Array.isArray(keys)) keys = keys.split(/, ?/);
 		this._keys = keys;
 		return this;
 	};
