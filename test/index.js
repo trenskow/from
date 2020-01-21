@@ -41,4 +41,29 @@ describe('from', () => {
 		expect(result).to.not.have.property('b');
 		expect(result).to.have.property('a');
 	});
+	it ('should come back with values filtered (select/$and).', () => {
+		let result = from([{ a: 5 }, { a: 10 }])
+			.where({
+				$gt: { a: 0 },
+				$lt: { a: 10 }
+			})
+			.value();
+		expect(result).to.have.lengthOf(1);
+		expect(result[0]).to.have.property('a').to.equal(5);
+	});
+	it ('should come back with values filtered (select/$or)', () => {
+		let result = from([{ a: 0 }, { a: 5 }, { a: 10 }, { a: 20 }])
+			.where({
+				$or: {
+					$lt: { a: 1 },
+					$gt: { a: 10 },
+					a: 5
+				}
+			})
+			.value();
+		expect(result).to.have.lengthOf(3);
+		expect(result[0]).to.have.property('a').to.equal(0);
+		expect(result[1]).to.have.property('a').to.equal(5);
+		expect(result[2]).to.have.property('a').to.equal(20);
+	});
 });
