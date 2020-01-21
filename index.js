@@ -108,10 +108,12 @@ module.exports = exports = function from(obj) {
 
 	};
 
-	this.value = () => {
+	this.value = (opt = {}) => {
+
+		if (opt == null || typeof opt !== 'object') throw new TypeError('Options must be an object.');
 
 		const result = this._data
-			.filter((obj, ...args) => {
+			.filter((obj, ...args) => {	
 				const filter = (this._filter ? this._filter(obj, ...args) : true);
 				const conditions = (this._conditions ? this._test(obj, this._conditions) : true);
 				return filter && conditions;
@@ -145,10 +147,14 @@ module.exports = exports = function from(obj) {
 
 			});
 
-		if (!this._wasArray) return result[0];
+		if (!this._wasArray || opt.first) return result[0];
 
 		return result;
 
+	};
+
+	this.first = () => {
+		return this.value({ first: true });
 	};
 
 	return this;
