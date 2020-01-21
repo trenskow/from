@@ -120,28 +120,38 @@ module.exports = exports = function from(obj) {
 			})
 			.map((obj, idx) => {
 
-				let result = {};
+				let result = obj;
 
-				Object.keys(obj).forEach((key) => {
+				if (this._keys || this._valueTester || this._keyTransform) {
 
-					if (this._keys && this._keys.indexOf(key) == -1) return;
+					result = {};
 
-					if (this._valueTester && !this._valueTester(obj[key], key)) {
-						return;
-					}
+					Object.keys(obj).forEach((key) => {
 
-					let sourceKey = key;
-					let destKey = key;
+						if (this._keys && this._keys.indexOf(key) == -1) return;
+	
+						if (this._valueTester && !this._valueTester(obj[key], key)) {
+							return;
+						}
+	
+						let sourceKey = key;
+						let destKey = key;
+	
+						if (this._keyTransform) destKey = this._keyTransform(destKey);
+	
+						result[destKey] = obj[sourceKey];
+	
+					});
+	
+				}
 
-					if (this._keyTransform) destKey = this._keyTransform(destKey);
-
-					if (this._applyTo && this._applyTo.idx == idx) {
-						this._applyTo.obj[destKey] = obj[sourceKey];
-					}
-
-					result[destKey] = obj[sourceKey];
-
-				});
+				if (this._applyTo) {
+					Object.keys(result).forEach((key) => {
+						if (this._applyTo && this._applyTo.idx == idx) {
+							this._applyTo.obj[key] = result[key];
+						}
+					});
+				}
 
 				return result;
 
