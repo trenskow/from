@@ -69,4 +69,19 @@ describe('from', () => {
 	it ('should come back with first.', () => {
 		expect(from([ { a: 5 }, { a: 10 }]).first()).to.have.property('a').to.equal(5);
 	});
+	it ('should only come back with a subset.', () => {
+		const result = from([0,1,2,3,4,5,6,7,8,9]).paginated({ offset: 2, limit: 4 }).value();
+		expect(result).to.have.lengthOf(4);
+		expect(result[0]).to.equal(2);
+	});
+	it ('should come back with a offset.', () => {
+		const result = from([0,1,2,3,4,5,6,7,8,9]).offsetBy(2).value();
+		expect(result).to.have.lengthOf(8);
+		expect(result[0]).to.equal(2);
+	});
+	it ('should come back with a limit.', () => {
+		const result = from([0,1,2,3,4,5,6,7,8,9]).limitTo(2).value();
+		expect(result).to.have.lengthOf(2);
+		expect(result[0]).to.equal(0);
+	});
 });

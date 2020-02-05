@@ -61,6 +61,22 @@ module.exports = exports = function from(obj) {
 		return this;
 	};
 
+	this.offsetBy = (offset) => {
+		this._offset = offset;
+		return this;
+	};
+
+	this.limitTo = (limit) => {
+		this._limit = limit;
+		return this;
+	};
+
+	this.paginated = (options) => {
+		this.offsetBy(options.offset);
+		this.limitTo(options.limit || options.count);
+		return this;
+	};
+
 	this._test = (value, conditions, operator = '$and', comparer = '$eq') => {
 
 		const operators = ['$and','$or'];
@@ -112,7 +128,14 @@ module.exports = exports = function from(obj) {
 
 		if (opt == null || typeof opt !== 'object') throw new TypeError('Options must be an object.');
 
-		const result = this._data
+		let data = this._data;
+
+		if (this._offset || this._limit) {
+			if (this._limit) data = data.slice(this._offset || 0, (this._offset || 0) + this._limit);
+			else data = data.slice(this._offset);
+		}
+
+		const result = data
 			.filter((obj, ...args) => {	
 				const filter = (this._filter ? this._filter(obj, ...args) : true);
 				const conditions = (this._conditions ? this._test(obj, this._conditions) : true);
