@@ -5,12 +5,14 @@ A silly library for selecting keys from an object.
 
 # Usage
 
-    const from = require('@trenskow/from');
-    
-    const filtered = from({ someObject }
-        .select('key1,key2,key3')
-        .mapKeys((key) => `_${key}`)
-        .value();
+````javascript
+const from = require('@trenskow/from');
+
+const filtered = from({ someObject }
+    .select('key1,key2,key3')
+    .mapKeys((key) => `_${key}`)
+    .value();
+````
 
 # License
 
