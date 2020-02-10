@@ -11,9 +11,15 @@ module.exports = exports = function from(obj) {
 
 	this._wasArray = Array.isArray(obj);
 	this._data = this._wasArray ? obj : [obj];
+	this._keyTransforms = [];
 
 	this.mapKeys = (keyTransform) => {
-		this._keyTransform = keyTransform;
+		if (typeof keyTransform === 'function') this._keyTransforms.push(keyTransform);
+		else {
+			this._keyTransforms.push((key) => {
+				return keyTransform[key] || key;
+			});
+		}
 		return this;
 	};
 
@@ -148,7 +154,7 @@ module.exports = exports = function from(obj) {
 
 				let result = obj;
 
-				if (this._keyPaths || this._valueTester || this._keyTransform) {
+				if (this._keyPaths || this._valueTester || this._keyTransforms.length) {
 
 					result = {};
 
@@ -162,7 +168,9 @@ module.exports = exports = function from(obj) {
 							return;
 						}
 
-						if (this._keyTransform) keyPath = this._keyTransform(keyPath);
+						keyPath = this._keyTransforms.reduce((keyPath, keyTransform) => {
+							return keyTransform(keyPath);
+						}, keyPath);
 
 						keyd(result).set(keyPath, value);
 

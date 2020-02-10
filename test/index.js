@@ -46,6 +46,23 @@ describe('from', () => {
 		expect(result).to.have.property('_a').to.equal(123);
 		expect(result).to.have.property('_b').to.equal(456);
 	});
+	it ('should apply keys to another object with keys transformed (twice)', () => {
+		let result = {};
+		from({ a: 123, b: 456}).select('a, b').mapKeys((key) => `_${key}`).mapKeys((key) => `_${key}`).applyTo(result);
+		expect(result).to.have.property('__a').to.equal(123);
+		expect(result).to.have.property('__b').to.equal(456);
+	});
+	it ('should apply keys to another object with keys transformed (using map)', () => {
+		let result = {};
+		from({ a: 123, b: 456}).select('a, b')
+			.mapKeys({
+				'a': 'c',
+				'b': 'd'
+			})
+			.applyTo(result);
+		expect(result).to.have.property('c').to.equal(123);
+		expect(result).to.have.property('d').to.equal(456);
+	});
 	it ('should come back with values filtered', () => {
 		let result = from({ a: 123, b: null }).filterValues((value) => value !== null).value();
 		expect(result).to.not.have.property('b');
