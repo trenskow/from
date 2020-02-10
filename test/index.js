@@ -93,6 +93,15 @@ describe('from', () => {
 		expect(result[1]).to.have.property('a').to.equal(5);
 		expect(result[2]).to.have.property('a').to.equal(20);
 	});
+	it ('should come back with values transformed', () => {
+		let result = from({ a: 1, b: 2 })
+			.mapValues((value) => {
+				return value + 1;
+			})
+			.value();
+		expect(result).to.have.property('a', 2);
+		expect(result).to.have.property('b', 3);
+	});
 	it ('should come back with first.', () => {
 		expect(from([ { a: 5 }, { a: 10 }]).first()).to.have.property('a').to.equal(5);
 	});

@@ -12,12 +12,13 @@ module.exports = exports = function from(obj) {
 	this._wasArray = Array.isArray(obj);
 	this._data = this._wasArray ? obj : [obj];
 	this._keyTransforms = [];
+	this._valueTransforms = [];
 
-	this.mapKeys = (keyTransform) => {
-		if (typeof keyTransform === 'function') this._keyTransforms.push(keyTransform);
+	this.mapKeys = (transform) => {
+		if (typeof transform === 'function') this._keyTransforms.push(transform);
 		else {
 			this._keyTransforms.push((key) => {
-				return keyTransform[key] || key;
+				return transform[key] || key;
 			});
 		}
 		return this;
@@ -36,6 +37,14 @@ module.exports = exports = function from(obj) {
 
 	this.filterValues = (valueTester) => {
 		this._valueTester = valueTester;
+		return this;
+	};
+
+	this.mapValues = (transform, beforeFilter = false) => {
+		this._valueTransforms.push({
+			transform,
+			beforeFilter
+		});
 		return this;
 	};
 
@@ -133,6 +142,14 @@ module.exports = exports = function from(obj) {
 
 	};
 
+	this._transformValues = (value, keyPath, beforeFilter) => {
+		return this._valueTransforms
+			.filter((valueTransform) => valueTransform.beforeFilter === beforeFilter)
+			.reduce((value, valueTransform) => {
+				return valueTransform.transform(value, keyPath);
+			}, value);
+	};
+
 	this.value = (opt = {}) => {
 
 		if (opt == null || typeof opt !== 'object') throw new TypeError('Options must be an object.');
@@ -154,7 +171,7 @@ module.exports = exports = function from(obj) {
 
 				let result = obj;
 
-				if (this._keyPaths || this._valueTester || this._keyTransforms.length) {
+				if (this._keyPaths || this._valueTester || this._keyTransforms.length || this._valueTransforms.length) {
 
 					result = {};
 
@@ -164,9 +181,13 @@ module.exports = exports = function from(obj) {
 
 						let value = keyd(obj).get(keyPath);
 
+						value = this._transformValues(value, keyPath, true);
+
 						if (this._valueTester && !this._valueTester(value, keyPath)) {
 							return;
 						}
+
+						value = this._transformValues(value, keyPath, false);
 
 						keyPath = this._keyTransforms.reduce((keyPath, keyTransform) => {
 							return keyTransform(keyPath);
