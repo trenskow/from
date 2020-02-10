@@ -24,6 +24,16 @@ describe('from', () => {
 			.to.have.property('0')
 			.to.not.have.property('b');
 	});
+	it ('should come back with only selected key paths', () => {
+		let result = from({ a: { b: 123 }, c: 456 })
+			.select('a.b')
+			.value();
+		expect(result)
+			.to.not.have.property('c');
+		expect(result)
+			.to.have.property('a')
+			.to.have.property('b', 123);
+	});
 	it ('should apply keys to another object', () => {
 		let result = {};
 		from({ a: 123, b: 456}).select('a, b').applyTo(result);

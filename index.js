@@ -1,5 +1,8 @@
 'use strict';
 
+const
+	keyd = require('keyd');
+
 module.exports = exports = function from(obj) {
 	
 	if (!(this instanceof from)) return new from(obj);
@@ -19,9 +22,9 @@ module.exports = exports = function from(obj) {
 		return this.value();
 	};
 
-	this.select = (keys = []) => {
-		if (!Array.isArray(keys)) keys = keys.split(/, ?/);
-		this._keys = keys;
+	this.select = (keyPaths = []) => {
+		if (!Array.isArray(keyPaths)) keyPaths = keyPaths.split(/, ?/);
+		this._keyPaths = keyPaths;
 		return this;
 	};
 
@@ -145,25 +148,24 @@ module.exports = exports = function from(obj) {
 
 				let result = obj;
 
-				if (this._keys || this._valueTester || this._keyTransform) {
+				if (this._keyPaths || this._valueTester || this._keyTransform) {
 
 					result = {};
 
-					Object.keys(obj).forEach((key) => {
+					const keyPaths = this._keyPaths || Object.keys(obj);
 
-						if (this._keys && this._keys.indexOf(key) == -1) return;
-	
-						if (this._valueTester && !this._valueTester(obj[key], key)) {
+					keyPaths.forEach((keyPath) => {
+
+						let value = keyd(obj).get(keyPath);
+
+						if (this._valueTester && !this._valueTester(value, keyPath)) {
 							return;
 						}
-	
-						let sourceKey = key;
-						let destKey = key;
-	
-						if (this._keyTransform) destKey = this._keyTransform(destKey);
-	
-						result[destKey] = obj[sourceKey];
-	
+
+						if (this._keyTransform) keyPath = this._keyTransform(keyPath);
+
+						keyd(result).set(keyPath, value);
+
 					});
 	
 				}
