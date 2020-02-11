@@ -12,7 +12,7 @@ describe('from', () => {
 		expect(from({ a: 123, b: 456}).select(['a']).value()).to.not.have.property('b');
 	});
 	it ('should come back with only selected keys (string variant)', () => {
-		expect(from({ a: 123, b: 456, c: 789}).select(['a, b']).value()).to.not.have.property('c');
+		expect(from({ a: 123, b: 456, c: { d: 789, e: 'abc' }}).select(['a, b']).value()).to.not.have.property('c');
 	});
 	it ('should come back with a filtered array', () => {
 		expect(

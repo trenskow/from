@@ -183,7 +183,13 @@ module.exports = exports = function from(obj) {
 
 					result = {};
 
-					keyd(obj).keys.forEach((keyPath) => {
+					const keyPaths = keyd(obj).keyPaths;
+
+					keyPaths.forEach((keyPath) => {
+
+						if (keyPaths.some((second) => {
+							return keyPath !== second && keyd.within(keyPath, second);
+						})) return;
 
 						if (this._keyTesters.some((keyTester) => {
 							return !keyTester(keyPath);
