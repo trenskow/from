@@ -13,6 +13,8 @@ module.exports = exports = function from(obj) {
 	this._data = this._wasArray ? obj : [obj];
 	this._keyTransforms = [];
 	this._valueTransforms = [];
+	this._keyTesters = [];
+	this._valueTesters = [];
 
 	this.mapKeys = (transform) => {
 		if (typeof transform === 'function') this._keyTransforms.push(transform);
@@ -31,12 +33,18 @@ module.exports = exports = function from(obj) {
 
 	this.select = (keyPaths = []) => {
 		if (!Array.isArray(keyPaths)) keyPaths = keyPaths.split(/, ?/);
-		this._keyPaths = keyPaths;
+		return this.filterKeys((second) => {
+			return keyPaths.some((first) => keyd.within(first, second));
+		});
+	};
+
+	this.filterKeys = (keyTester) => {
+		this._keyTesters.push(keyTester);
 		return this;
 	};
 
 	this.filterValues = (valueTester) => {
-		this._valueTester = valueTester;
+		this._valueTesters.push(valueTester);
 		return this;
 	};
 
@@ -171,21 +179,23 @@ module.exports = exports = function from(obj) {
 
 				let result = obj;
 
-				if (this._keyPaths || this._valueTester || this._keyTransforms.length || this._valueTransforms.length) {
+				if (this._keyTesters.length || this._valueTesters.length || this._keyTransforms.length || this._valueTransforms.length) {
 
 					result = {};
 
-					const keyPaths = this._keyPaths || Object.keys(obj);
+					keyd(obj).keys.forEach((keyPath) => {
 
-					keyPaths.forEach((keyPath) => {
+						if (this._keyTesters.some((keyTester) => {
+							return !keyTester(keyPath);
+						})) return;
 
 						let value = keyd(obj).get(keyPath);
 
 						value = this._transformValues(value, keyPath, true);
 
-						if (this._valueTester && !this._valueTester(value, keyPath)) {
-							return;
-						}
+						if (this._valueTesters.some((valueTester) => {
+							return !valueTester(value);
+						})) return;
 
 						value = this._transformValues(value, keyPath, false);
 

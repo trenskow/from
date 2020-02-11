@@ -1,6 +1,6 @@
 {
   "name": "@trenskow/from",
-  "version": "1.0.10",
+  "version": "1.1.0",
   "description": "A small library for selecting keys from an object.",
   "main": "index.js",
   "scripts": {
@@ -17,7 +17,7 @@
   },
   "homepage": "https://github.com/trenskow/from#readme",
   "dependencies": {
-    "keyd": "^1.1.5",
+    "keyd": "^1.1.7",
     "merge": "^1.2.1"
   },
   "devDependencies": {
