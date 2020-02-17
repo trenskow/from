@@ -183,7 +183,7 @@ module.exports = exports = function from(obj) {
 
 					result = {};
 
-					const keyPaths = keyd(obj).keyPaths;
+					const keyPaths = keyd(obj).keyPaths();
 
 					keyPaths.forEach((keyPath) => {
 
