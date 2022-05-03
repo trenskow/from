@@ -4,7 +4,7 @@
   "description": "A small library for selecting keys from an object.",
   "main": "index.js",
   "scripts": {
-    "test": "./node_modules/mocha/bin/mocha ./test/index.js"
+    "test": "./node_modules/mocha/bin/mocha.js ./test/index.js"
   },
   "repository": {
     "type": "git",
@@ -17,10 +17,10 @@
   },
   "homepage": "https://github.com/trenskow/from#readme",
   "dependencies": {
-    "keyd": "^1.5.7"
+    "keyd": "^1.5.9"
   },
   "devDependencies": {
     "chai": "^4.3.6",
-    "mocha": "^9.2.2"
+    "mocha": "^10.0.0"
   }
 }
