@@ -17,7 +17,7 @@
   },
   "homepage": "https://github.com/trenskow/from#readme",
   "dependencies": {
-    "keyd": "^1.6.2"
+    "keyd": "^1.6.3"
   },
   "devDependencies": {
     "chai": "^4.3.7",
