@@ -195,7 +195,7 @@ module.exports = exports = function from(obj) {
 							return !keyTester(keyPath);
 						})) return;
 
-						let value = keyd(obj).get(keyPath);
+						let value = keyd(obj).get(keyPath, { arrays: 'flat' });
 
 						value = this._transformValues(value, keyPath, true);
 
