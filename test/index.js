@@ -1,8 +1,5 @@
-'use strict';
-
-const
-	{ expect } = require('chai'),
-	from = require('../');
+import { expect } from 'chai';
+import from from '../index.js';
 
 describe('from', () => {
 	it ('should throw an error if input is not an object', () => {

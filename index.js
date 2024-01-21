@@ -1,10 +1,7 @@
-'use strict';
+import keyd from 'keyd';
 
-const
-	keyd = require('keyd');
+export default function from(obj) {
 
-module.exports = exports = function from(obj) {
-	
 	if (!(this instanceof from)) return new from(obj);
 
 	if (typeof(obj) !== 'object') throw TypeError('Input must be object or array.');
@@ -170,7 +167,7 @@ module.exports = exports = function from(obj) {
 		}
 
 		const result = data
-			.filter((obj, ...args) => {	
+			.filter((obj, ...args) => {
 				const filter = (this._filter ? this._filter(obj, ...args) : true);
 				const conditions = (this._conditions ? this._test(obj, this._conditions) : true);
 				return filter && conditions;
@@ -212,7 +209,7 @@ module.exports = exports = function from(obj) {
 						keyd(result).set(keyPath, value);
 
 					});
-	
+
 				}
 
 				if (this._applyTo) {
