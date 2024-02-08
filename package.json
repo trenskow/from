@@ -21,7 +21,7 @@
     "keyd": "^2.1.0"
   },
   "devDependencies": {
-    "chai": "^5.0.0",
+    "chai": "^5.0.3",
     "mocha": "^10.2.0"
   }
 }
