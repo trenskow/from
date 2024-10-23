@@ -18,7 +18,7 @@
 	},
 	"homepage": "https://github.com/trenskow/from#readme",
 	"dependencies": {
-		"keyd": "^2.1.11"
+		"keyd": "^2.1.12"
 	},
 	"devDependencies": {
 		"@eslint/eslintrc": "^3.1.0",
