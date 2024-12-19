@@ -1,6 +1,6 @@
 {
 	"name": "@trenskow/from",
-	"version": "1.2.27",
+	"version": "1.2.28",
 	"description": "A small library for selecting keys from an object.",
 	"main": "index.js",
 	"type": "module",
