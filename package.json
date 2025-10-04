@@ -18,14 +18,14 @@
 	},
 	"homepage": "https://github.com/trenskow/from#readme",
 	"dependencies": {
-		"keyd": "^2.1.36"
+		"keyd": "^2.1.37"
 	},
 	"devDependencies": {
 		"@eslint/eslintrc": "^3.3.1",
 		"@eslint/js": "^9.13.0",
-		"chai": "^5.2.0",
-		"eslint": "^9.29.0",
-		"globals": "^16.2.0",
-		"mocha": "^11.7.1"
+		"chai": "^5.3.3",
+		"eslint": "^9.37.0",
+		"globals": "^16.4.0",
+		"mocha": "^11.7.4"
 	}
 }
