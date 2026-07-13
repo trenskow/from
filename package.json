@@ -21,10 +21,10 @@
 		"keyd": "^2.1.68"
 	},
 	"devDependencies": {
-		"@eslint/eslintrc": "^3.3.5",
+		"@eslint/eslintrc": "^3.3.6",
 		"@eslint/js": "^10.0.1",
 		"chai": "^6.2.2",
-		"eslint": "^10.6.0",
+		"eslint": "^10.7.0",
 		"globals": "^17.7.0",
 		"mocha": "^11.7.6"
 	}
